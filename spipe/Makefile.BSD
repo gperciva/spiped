@@ -18,6 +18,7 @@ PROTO_DIR	=	../proto
 # spipe code
 SRCS	=	main.c
 SRCS	+=	pushbits.c
+SRCS	+=	pthread_util.c
 
 # spipe protocol
 .PATH.c	:	${PROTO_DIR}

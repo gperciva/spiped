@@ -24,6 +24,7 @@ IDIRS	+=	-I${LIBCPERCIVA_DIR}/util
 # Pushbits
 .PATH.c	:	${SPIPE_DIR}
 SRCS	+=	pushbits.c
+SRCS	+=	pthread_util.c
 IDIRS	+=	-I${SPIPE_DIR}
 
 .include <bsd.prog.mk>
