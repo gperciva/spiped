@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #include "noeintr.h"
+#include "pthread_util.h"
 #include "warnp.h"
 
 #include "pushbits.h"
@@ -44,13 +45,16 @@ workthread_cleanup(void * cookie)
 
 /* Bit-pushing thread. */
 static void *
-workthread(void * cookie)
+workthread(void * cookie, void * initialized(void *), void * initialized_cookie)
 {
 	struct push * P = cookie;
 	ssize_t readlen;
 
 	/* Set up cleanup function. */
 	pthread_cleanup_push(workthread_cleanup, P);
+
+	/* Notify that we've started. */
+	initialized(initialized_cookie);
 
 	/* Infinite loop unless we hit EOF or an error. */
 	do {
@@ -84,7 +88,7 @@ workthread(void * cookie)
 /**
  * pushbits(in, out, thr):
  * Create a thread which copies data from ${in} to ${out} and
- * store the thread ID in ${thr}.
+ * store the thread ID in ${thr}.  Wait until the thread has started.
  */
 int
 pushbits(int in, int out, pthread_t * thr)
@@ -99,7 +103,7 @@ pushbits(int in, int out, pthread_t * thr)
 	P->out = out;
 
 	/* Create thread. */
-	if ((rc = pthread_create(thr, NULL, workthread, P)) != 0) {
+	if ((rc = pthread_create_blocking(thr, NULL, workthread, P)) != 0) {
 		warn0("pthread_create: %s", strerror(rc));
 		goto err1;
 	}
