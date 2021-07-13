@@ -355,6 +355,38 @@ err0:
 	return (-1);
 }
 
+static int
+echo_start_stop(void)
+{
+	pthread_t thread;
+	int rc;
+
+	/* Start echoing. */
+	if (pushbits(STDIN_FILENO, STDOUT_FILENO, &thread)) {
+		warnp("pushbits");
+		goto err0;
+	}
+
+	/* Cancel the thread immediately. */
+	if ((rc = pthread_cancel(thread)) != 0) {
+		warn0("pthread_cancel: %s", strerror(rc));
+		goto err0;
+	}
+
+	/* Wait for thread to finish. */
+	if ((rc = pthread_join(thread, NULL)) != 0) {
+		warn0("pthread_join: %s", strerror(rc));
+		goto err0;
+	}
+
+	/* Success! */
+	return (0);
+
+err0:
+	/* Failure! */
+	return (-1);
+}
+
 static void
 usage(void)
 {
@@ -396,7 +428,7 @@ main(int argc, char ** argv)
 	/* We should have processed all the arguments except for one. */
 	if (argc != 1)
 		usage();
-	if (PARSENUM(&desired_test, argv[0], 1, 4)) {
+	if (PARSENUM(&desired_test, argv[0], 1, 5)) {
 		warnp("parsenum");
 		goto err0;
 	}
@@ -419,6 +451,10 @@ main(int argc, char ** argv)
 		break;
 	case 4:
 		if (chain_two())
+			goto err0;
+		break;
+	case 5:
+		if (echo_start_stop())
 			goto err0;
 		break;
 	default:

@@ -96,6 +96,7 @@ IDIRS	+=	-I${LIB_DIR}/proto
 # spiped utility functions
 .PATH.c	:	${LIB_DIR}/util
 SRCS	+=	graceful_shutdown.c
+SRCS	+=	pthread_create_blocking.c
 IDIRS	+=	-I${LIB_DIR}/util
 
 .include <bsd.lib.mk>

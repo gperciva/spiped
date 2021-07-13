@@ -32,4 +32,9 @@ scenario_cmd() {
 	setup_check_variables "test_pushbits 4"
 	${c_valgrind_cmd} ${scriptdir}/pushbits/test_pushbits 4
 	echo $? > ${c_exitfile}
+
+	# Echo stdin to stdout, but cancel it immediately after starting
+	setup_check_variables "test_pushbits 5"
+	${c_valgrind_cmd} ${scriptdir}/pushbits/test_pushbits 5
+	echo $? > ${c_exitfile}
 }

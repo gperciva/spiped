@@ -6,8 +6,9 @@
 /**
  * pushbits(in, out, thr):
  * Create a thread which copies data from ${in} to ${out} and
- * store the thread ID in ${thr}.  If ${out} is a socket, disable
- * writing to it after the thread exits.
+ * store the thread ID in ${thr}.  Wait until ${thr} has started.
+ * If ${out} is a socket, disable writing to it after the thread
+ * exits.
  */
 int pushbits(int, int, pthread_t *);
 

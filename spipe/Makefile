@@ -41,5 +41,5 @@ ${PROG}:${SRCS:.c=.o} ${LIBALL}
 
 main.o: main.c ../libcperciva/events/events.h ../libcperciva/util/getopt.h ../lib/util/graceful_shutdown.h ../libcperciva/util/parsenum.h ../libcperciva/util/sock.h ../libcperciva/util/warnp.h ../lib/proto/proto_conn.h ../lib/proto/proto_crypt.h ../libcperciva/crypto/crypto_dh.h pushbits.h
 	${CC} ${CFLAGS_POSIX} -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -DCPUSUPPORT_CONFIG_FILE=\"cpusupport-config.h\"  -I.. ${IDIRS} ${CPPFLAGS} ${CFLAGS} -c main.c -o main.o
-pushbits.o: pushbits.c ../libcperciva/util/noeintr.h ../libcperciva/util/warnp.h pushbits.h
+pushbits.o: pushbits.c ../libcperciva/util/noeintr.h ../lib/util/pthread_create_blocking.h ../libcperciva/util/warnp.h pushbits.h
 	${CC} ${CFLAGS_POSIX} -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -DCPUSUPPORT_CONFIG_FILE=\"cpusupport-config.h\"  -I.. ${IDIRS} ${CPPFLAGS} ${CFLAGS} -c pushbits.c -o pushbits.o

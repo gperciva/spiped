@@ -5,7 +5,7 @@ PROG	=	test_standalone_enc
 NOINST	=	1
 
 # Library code required
-LDADD_REQ	=	-lcrypto
+LDADD_REQ	=	-lcrypto -lpthread
 
 # Useful relative directories
 LIBCPERCIVA_DIR	=	../../libcperciva
@@ -23,7 +23,11 @@ IDIRS	+=	-I${LIB_DIR}/proto
 IDIRS	+=	-I${LIBCPERCIVA_DIR}/alg
 IDIRS	+=	-I${LIBCPERCIVA_DIR}/cpusupport
 IDIRS	+=	-I${LIBCPERCIVA_DIR}/crypto
+IDIRS	+=	-I${LIBCPERCIVA_DIR}/events
 IDIRS	+=	-I${LIBCPERCIVA_DIR}/util
+
+# spiped includes
+IDIRS	+=	-I${LIB_DIR}/util
 
 # Special test-only defines.
 CFLAGS.proto_crypt.c= -DSTANDALONE_ENC_TESTING
@@ -33,7 +37,7 @@ CFLAGS.main.c= -DSTANDALONE_ENC_TESTING
 perftest:
 	@${MAKE} all > /dev/null
 	@printf "# nblks\tbsize\ttime\tspeed\talg\n"
-	@for N in 1 2 3 4 ; do					\
+	@for N in 1 2 3 4 5; do					\
 		./test_standalone_enc $$N |			\
 		    grep "blocks" |				\
 		    awk -v N="$$N"				\

@@ -9,6 +9,7 @@ LDADD_REQ	=	-lpthread
 
 # Useful relative directories
 LIBCPERCIVA_DIR	=	../../libcperciva
+LIB_DIR		=	../../lib
 SPIPE_DIR	=	../../spipe
 
 # Main test code
@@ -21,5 +22,8 @@ IDIRS	+=	-I${SPIPE_DIR}
 
 # libcperciva includes
 IDIRS	+=	-I${LIBCPERCIVA_DIR}/util
+
+# spiped includes
+IDIRS	+=	-I${LIB_DIR}/util
 
 .include <bsd.prog.mk>
